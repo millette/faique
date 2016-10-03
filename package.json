@@ -1,0 +1,44 @@
+{
+  "name": "faique",
+  "version": "0.0.0",
+  "description": "FAI (ISP) in Québec.",
+  "license": "AGPL-3.0",
+  "repository": "millette/faique",
+  "author": {
+    "name": "Robin Millette",
+    "email": "robin@millette.info",
+    "url": "http://robin.millette.info"
+  },
+  "bin": "cli.js",
+  "engines": {
+    "node": ">=4"
+  },
+  "scripts": {
+    "lint": "standard",
+    "test": "standard && nyc ava",
+    "coverage": "nyc report --reporter=text-lcov | coveralls"
+  },
+  "files": [
+    "index.js",
+    "cli.js"
+  ],
+  "keywords": [
+    "cli-app",
+    "cli",
+    ""
+  ],
+  "dependencies": {
+    "meow": "^3.7.0",
+    "update-notifier": "^1.0.2"
+  },
+  "devDependencies": {
+    "ava": "^0.16.0",
+    "babel-eslint": "^7.0.0",
+    "coveralls": "^2.11.14",
+    "nyc": "^8.3.0",
+    "standard": "^8.3.0"
+  },
+  "standard": {
+    "parser": "babel-eslint"
+  }
+}

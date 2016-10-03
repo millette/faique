@@ -22,12 +22,48 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 'use strict'
 
-module.exports = function (str, opts) {
-  if (typeof str !== 'string') {
-    throw new TypeError('Expected a string')
-  }
+// npm
+const fetchPony = require('fetch-ponyfill')({})
+const xml2js = require('xml2js')
+const pify = require('pify')
 
-  opts = opts || {}
+const xml2jsParse = (() => {
+  const xml2jsParseImp = pify(xml2js.parseString)
+  return (str) => xml2jsParseImp(str, {
+    explicitArray: false, normalizeTags: true
+  })
+})()
 
-  return str + ' & ' + (opts.postfix || 'rainbows')
+exports.ebox = {
+  API: 'http://www.ebox.ca/wp-content/themes/ebox_v2/validationtool_combo/controler_ajax.php',
+  postalCode: (str) => fetchPony.fetch(exports.ebox.API, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: `checkprov=QC&lng=fr&zip=&search=${str}&action=searchAddressAC`
+  })
+    .then((res) => res.json()),
+
+  deets: (obj) => fetchPony.fetch(exports.ebox.API, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: `action=queryBell&civicno=${obj.safn}&street=${obj.sn}&sdc=&stc=${obj.stc}&municipality=${obj.mn}&bellprov=${obj.pc}&zip=${obj.zip}&lng=fr`
+  })
+    .then((res) => res.text())
+    .then(xml2jsParse)
+    .then((x) => x.xml),
+
+  postalCodeDeets: (str) => exports.ebox.postalCode(str)
+    .then((x) => x[0])
+    .then(exports.ebox.deets)
+}
+
+exports.teksavvy = {
+  API: 'https://teksavvy.com/TekSavvy.ProductTabs/AvailabilityCheck/CheckAvailability',
+  postalCode: (str) => fetchPony.fetch(exports.teksavvy.API, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: `PostalCode=${str}&phone-submit=V%C3%A9rifier+maintenant&returnUrl=https%3A%2F%2Fteksavvy.com%2Ffr%2Fresidential%2Finternet%2Fcable&__RequestVerificationToken=Ua3XK0T0EiJ93UQEKkW8UdA859Z0xe%2BVqgWHlflMpKkob3vBG83r5ljUPJDT1n1TJrJwdWDZrWZ0C653Np1K65OCQkjmaGz4hFP%2FLHAebWFP2KwZF45QSqe%2FnLYTXybIh%2BT%2FF5HqjPdDAFOYFiRNb2jiBCwYV5IKb4q8hgyeCo%2B5RrdXHJlVMV%2Fv%2FbXAkFYt8TotKTpAAHaBi4oTpcqY4Q%3D%3D`
+  }),
+  deets: (obj) => {},
+  postalCodeDeets: (str) => {}
 }

@@ -25,11 +25,16 @@
   "keywords": [
     "cli-app",
     "cli",
-    ""
+    "fai",
+    "isp",
+    "québec"
   ],
   "dependencies": {
+    "fetch-ponyfill": "^3.0.2",
     "meow": "^3.7.0",
-    "update-notifier": "^1.0.2"
+    "pify": "^2.3.0",
+    "update-notifier": "^1.0.2",
+    "xml2js": "^0.4.17"
   },
   "devDependencies": {
     "ava": "^0.16.0",

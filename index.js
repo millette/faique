@@ -67,27 +67,30 @@ const acanac = {
     }
   },
   API: 'https://api1.distributel.ca/api/Availability/AvailabilityCheck',
-  postalCode: (str) => fetchPony.fetch(`https://ws1.postescanada-canadapost.ca/AddressComplete/Interactive/Find/v2.10/json3ex.ws?Key=${process.env.CANADAPOST_KEY}&Country=CAN&SearchTerm=${str}&LanguagePreference=fr&LastId=&SearchFor=Everything&OrderBy=UserLocation&$block=true&$cache=true`, acanac.options)
-  .then((r) => r.json())
-  .then((x) => fetchPony.fetch(`https://ws1.postescanada-canadapost.ca/AddressComplete/Interactive/RetrieveFormatted/v2.10/json3ex.ws?Key=${process.env.CANADAPOST_KEY}&Id=${x.Items[0].Id}&Source=&$cache=true`, acanac.options))
-  .then((r) => r.json())
-  .then((y) => y.Items),
+  API0: 'https://ws1.postescanada-canadapost.ca/AddressComplete/Interactive/',
+  postalCode: (str) => fetchPony.fetch(`${acanac.API0}Find/v2.10/json3ex.ws?Key=${process.env.CANADAPOST_KEY}&Country=CAN&SearchTerm=${str}&LanguagePreference=fr&LastId=&SearchFor=Everything&OrderBy=UserLocation&$block=true&$cache=true`, acanac.options)
+    .then((r) => r.json())
+    .then((x) => fetchPony.fetch(`${acanac.API0}RetrieveFormatted/v2.10/json3ex.ws?Key=${process.env.CANADAPOST_KEY}&Id=${x.Items[0].Id}&Source=&$cache=true`, acanac.options))
+    .then((r) => r.json())
+    .then((y) => y.Items),
   deets: (obj) => fetchPony.fetch(acanac.API, {
     method: 'POST',
     body: JSON.stringify({
+/*
+      NumberSuffix: '',
+      StreetDirection: '',
+      StreetType: '',
+*/
       IP: '69.171.154.246',
       AptSuite: obj.SubBuilding,
       City: obj.City,
       Country: obj.CountryIso2,
       FullStreetName: obj.Line1,
       FullAddress: obj.Label,
-//      NumberSuffix: '',
       PostalCode: obj.PostalCode,
       Province: obj.Province,
-//      StreetDirection: '',
       StreetName: obj.Street,
       StreetNumber: obj.BuildingNumber,
-//      StreetType: '',
       Language: obj.Language
     }),
     headers: {
@@ -102,10 +105,11 @@ const acanac = {
 
 module.exports = {
   acanac: (str) => acanac.postalCode(str)
-  .then((a) => acanac.deets(a[0])),
+    .then((x) => x[0])
+    .then(acanac.deets),
   ebox: (str) => ebox.postalCode(str)
-  .then((x) => x[0])
-  .then(ebox.deets),
+    .then((x) => x[0])
+    .then(ebox.deets),
   teksavvy: (str) => fetchPony.fetch(teksavvy.API, {
     method: 'POST',
     redirect: 'manual',
@@ -115,7 +119,7 @@ module.exports = {
       'Content-Type': 'application/x-www-form-urlencoded'
     }
   })
-  .then((aaa) => aaa.headers.getAll('set-cookie')
-    .map(cookie.parse)
-    .filter((x) => x.products)[0].products.split('|'))
+    .then((aaa) => aaa.headers.getAll('set-cookie')
+      .map(cookie.parse)
+      .filter((x) => x.products)[0].products.split('|'))
 }

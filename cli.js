@@ -44,8 +44,8 @@ const cli = meow([
 ])
 
 const pc = cli.input[0] || 'H2K4B2'
+const jsonlog = (a) => console.log(JSON.stringify(a, null, ' '))
 
-// Promise.all([faique.ebox(pc), faique.teksavvy(pc)])
-faique.acanac(pc)
-  .then(console.log)
+Promise.all([faique.acanac(pc), faique.ebox(pc), faique.teksavvy(pc)])
+  .then(jsonlog)
   .catch(console.error)

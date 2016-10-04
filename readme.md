@@ -23,21 +23,37 @@ with any value or by using the --no-update-notifier flag on a per run basis.
 ```js
 const faique = require('faique')
 
-faique('unicorns')
-//=> 'unicorns & rainbows'
+const jsonlog = (x) => console.log(JSON.stringify(x, null, ' '))
+faique.ebox('H3A0G4')
+  .then(jsonlog)
+//=> ...
+
+faique.teksavvy('H3A0G4')
+  .then(jsonlog)
+//=> ...
+
+faique.acanac('H3A0G4')
+  .then(jsonlog)
+//=> ...
+
 ```
 
 ## API
-### faique(input, [options])
-#### input
+### faique.ebox(postalcode)
+#### postalcode
 Type: `string`
 
 Lorem ipsum.
 
-#### options
-##### foo
-Type: `boolean`<br>
-Default: `false`
+### faique.teksavvy(postalcode)
+#### postalcode
+Type: `string`
+
+Lorem ipsum.
+
+### faique.acanac(postalcode)
+#### postalcode
+Type: `string`
 
 Lorem ipsum.
 
@@ -50,16 +66,11 @@ $ npm install --global faique
 $ faique --help
 
   Usage
-    faique [input]
-
-  Options
-    --foo  Lorem ipsum. [Default: false]
+    faique input
 
   Examples
-    $ faique
-    unicorns & rainbows
-    $ faique ponies
-    ponies & rainbows
+    $ faique H3A0G4
+    ...
 ```
 
 ## License

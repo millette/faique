@@ -23,6 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 'use strict'
 
 // npm
+require('dotenv-safe').load()
 const fetchPony = require('fetch-ponyfill')({})
 const xml2js = require('xml2js')
 const cookie = require('cookie')
@@ -58,16 +59,17 @@ const teksavvy = {
 }
 
 const acanac = {
+  basic: new Buffer(process.env.ACANAC_AUTH).toString('base64'),
   options: {
     headers: {
-      'Accept': 'application/json',
-      'Referer': 'https://www.acanac.com/fr/internet-quebec/'
+      Accept: 'application/json',
+      Referer: 'https://www.acanac.com/fr/internet-quebec/'
     }
   },
   API: 'https://api1.distributel.ca/api/Availability/AvailabilityCheck',
-  postalCode: (str) => fetchPony.fetch(`https://ws1.postescanada-canadapost.ca/AddressComplete/Interactive/Find/v2.10/json3ex.ws?Key=UW32-GA28-JR96-KP53&Country=CAN&SearchTerm=${str}&LanguagePreference=fr&LastId=&SearchFor=Everything&OrderBy=UserLocation&$block=true&$cache=true`, acanac.options)
+  postalCode: (str) => fetchPony.fetch(`https://ws1.postescanada-canadapost.ca/AddressComplete/Interactive/Find/v2.10/json3ex.ws?Key=${process.env.CANADAPOST_KEY}&Country=CAN&SearchTerm=${str}&LanguagePreference=fr&LastId=&SearchFor=Everything&OrderBy=UserLocation&$block=true&$cache=true`, acanac.options)
   .then((r) => r.json())
-  .then((x) => fetchPony.fetch(`https://ws1.postescanada-canadapost.ca/AddressComplete/Interactive/RetrieveFormatted/v2.10/json3ex.ws?Key=UW32-GA28-JR96-KP53&Id=${x.Items[0].Id}&Source=&$cache=true`, acanac.options))
+  .then((x) => fetchPony.fetch(`https://ws1.postescanada-canadapost.ca/AddressComplete/Interactive/RetrieveFormatted/v2.10/json3ex.ws?Key=${process.env.CANADAPOST_KEY}&Id=${x.Items[0].Id}&Source=&$cache=true`, acanac.options))
   .then((r) => r.json())
   .then((y) => y.Items),
   deets: (obj) => fetchPony.fetch(acanac.API, {
@@ -90,14 +92,19 @@ const acanac = {
     }),
     headers: {
       // DistributelWP_techwyse:OK5a0mmrj
-      'Authorization': 'Basic RGlzdHJpYnV0ZWxXUF90ZWNod3lzZTpPSzVhMG1tcmopSWFBVQ==',
-      'Accept': 'application/json',
+      // var b = new Buffer('JavaScript')
+      // var s = b.toString('base64')
+      Authorization: 'Basic ' + acanac.basic,
+      // Authorization: 'Basic RGlzdHJpYnV0ZWxXUF90ZWNod3lzZTpPSzVhMG1tcmopSWFBVQ==',
+      Accept: 'application/json',
       'Content-Type': 'application/json'
     }
   })
     .then((r) => r.json())
     .then((s) => JSON.parse(s.result).Data)
 }
+
+// console.log('BB:', acanac.basic)
 
 module.exports = {
   acanac: (str) => acanac.postalCode(str)

@@ -57,7 +57,51 @@ const teksavvy = {
   API: 'https://teksavvy.com/TekSavvy.ProductTabs/AvailabilityCheck/CheckAvailability'
 }
 
+const acanac = {
+  options: {
+    headers: {
+      'Accept': 'application/json',
+      'Referer': 'https://www.acanac.com/fr/internet-quebec/'
+    }
+  },
+  API: 'https://api1.distributel.ca/api/Availability/AvailabilityCheck',
+  postalCode: (str) => fetchPony.fetch(`https://ws1.postescanada-canadapost.ca/AddressComplete/Interactive/Find/v2.10/json3ex.ws?Key=UW32-GA28-JR96-KP53&Country=CAN&SearchTerm=${str}&LanguagePreference=fr&LastId=&SearchFor=Everything&OrderBy=UserLocation&$block=true&$cache=true`, acanac.options)
+  .then((r) => r.json())
+  .then((x) => fetchPony.fetch(`https://ws1.postescanada-canadapost.ca/AddressComplete/Interactive/RetrieveFormatted/v2.10/json3ex.ws?Key=UW32-GA28-JR96-KP53&Id=${x.Items[0].Id}&Source=&$cache=true`, acanac.options))
+  .then((r) => r.json())
+  .then((y) => y.Items),
+  deets: (obj) => fetchPony.fetch(acanac.API, {
+    method: 'POST',
+    body: JSON.stringify({
+      IP: '69.171.154.246',
+      AptSuite: obj.SubBuilding,
+      City: obj.City,
+      Country: obj.CountryIso2,
+      FullStreetName: obj.Line1,
+      FullAddress: obj.Label,
+//      NumberSuffix: '',
+      PostalCode: obj.PostalCode,
+      Province: obj.Province,
+//      StreetDirection: '',
+      StreetName: obj.Street,
+      StreetNumber: obj.BuildingNumber,
+//      StreetType: '',
+      Language: obj.Language
+    }),
+    headers: {
+      // DistributelWP_techwyse:OK5a0mmrj
+      'Authorization': 'Basic RGlzdHJpYnV0ZWxXUF90ZWNod3lzZTpPSzVhMG1tcmopSWFBVQ==',
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+  })
+    .then((r) => r.json())
+    .then((s) => JSON.parse(s.result).Data)
+}
+
 module.exports = {
+  acanac: (str) => acanac.postalCode(str)
+  .then((a) => acanac.deets(a[0])),
   ebox: (str) => ebox.postalCode(str)
   .then((x) => x[0])
   .then(ebox.deets),

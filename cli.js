@@ -45,6 +45,7 @@ const cli = meow([
 
 const pc = cli.input[0] || 'H2K4B2'
 
-Promise.all([faique.ebox(pc), faique.teksavvy(pc)])
+// Promise.all([faique.ebox(pc), faique.teksavvy(pc)])
+faique.acanac(pc)
   .then(console.log)
   .catch(console.error)

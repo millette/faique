@@ -59,7 +59,7 @@ const teksavvy = {
 }
 
 const acanac = {
-  basic: new Buffer(process.env.ACANAC_AUTH).toString('base64'),
+  basic: 'Basic ' + new Buffer(process.env.ACANAC_AUTH).toString('base64'),
   options: {
     headers: {
       Accept: 'application/json',
@@ -91,11 +91,7 @@ const acanac = {
       Language: obj.Language
     }),
     headers: {
-      // DistributelWP_techwyse:OK5a0mmrj
-      // var b = new Buffer('JavaScript')
-      // var s = b.toString('base64')
-      Authorization: 'Basic ' + acanac.basic,
-      // Authorization: 'Basic RGlzdHJpYnV0ZWxXUF90ZWNod3lzZTpPSzVhMG1tcmopSWFBVQ==',
+      Authorization: acanac.basic,
       Accept: 'application/json',
       'Content-Type': 'application/json'
     }
@@ -103,8 +99,6 @@ const acanac = {
     .then((r) => r.json())
     .then((s) => JSON.parse(s.result).Data)
 }
-
-// console.log('BB:', acanac.basic)
 
 module.exports = {
   acanac: (str) => acanac.postalCode(str)

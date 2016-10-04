@@ -30,6 +30,7 @@
     "québec"
   ],
   "dependencies": {
+    "cookie": "^0.3.1",
     "fetch-ponyfill": "^3.0.2",
     "meow": "^3.7.0",
     "pify": "^2.3.0",

@@ -43,10 +43,8 @@ const cli = meow([
   '  ponies & rainbows'
 ])
 
-faique.teksavvy.postalCode(cli.input[0] || 'H2K4B2') // J0K1S0
-  .then((r3) => {
-    console.log('r3:', JSON.stringify(r3.headers, null, ' '))
-    return r3.text()
-  })
+const pc = cli.input[0] || 'H2K4B2'
+
+Promise.all([faique.ebox(pc), faique.teksavvy(pc)])
   .then(console.log)
   .catch(console.error)

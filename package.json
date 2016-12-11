@@ -31,11 +31,11 @@
   ],
   "dependencies": {
     "cookie": "^0.3.1",
-    "dotenv-safe": "^2.3.2",
+    "dotenv-safe": "^3.0.0",
     "fetch-ponyfill": "^3.0.2",
     "meow": "^3.7.0",
     "pify": "^2.3.0",
-    "update-notifier": "^1.0.2",
+    "update-notifier": "^1.0.3",
     "xml2js": "^0.4.17"
   },
   "devDependencies": {

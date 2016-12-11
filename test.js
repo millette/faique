@@ -58,7 +58,7 @@ test('acanac j0k1s0', async t => {
 test('acanac j0k2r0', async t => {
   const result = await fn.acanac('j0k2r0')
   t.falsy(result.AvailabilityLookupError)
-  t.is(result.InternetOptions.length, 3)
+  t.is(result.InternetOptions.length, 5)
   t.is(result.PhoneOptions[0].ID, 1028)
   t.is(result.TVOptions.length, 0)
 })
@@ -66,7 +66,7 @@ test('acanac j0k2r0', async t => {
 test('acanac h2k4b2', async t => {
   const result = await fn.acanac('h2k4b2')
   t.falsy(result.AvailabilityLookupError)
-  t.is(result.InternetOptions.length, 7)
+  t.is(result.InternetOptions.length, 9)
   t.is(result.PhoneOptions[0].ID, 1028)
   t.is(result.TVOptions.length, 0)
 })

@@ -66,7 +66,7 @@ test('acanac j0k2r0', async t => {
 test('acanac h2k4b2', async t => {
   const result = await fn.acanac('h2k4b2')
   t.falsy(result.AvailabilityLookupError)
-  t.is(result.InternetOptions.length, 9)
+  t.is(result.InternetOptions.length, 8)
   t.is(result.PhoneOptions[0].ID, 1028)
   t.is(result.TVOptions.length, 0)
 })

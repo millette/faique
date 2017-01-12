@@ -31,7 +31,7 @@
   ],
   "dependencies": {
     "cookie": "^0.3.1",
-    "dotenv-safe": "^3.0.0",
+    "dotenv-safe": "^4.0.3",
     "fetch-ponyfill": "^3.0.2",
     "meow": "^3.7.0",
     "pify": "^2.3.0",

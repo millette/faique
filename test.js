@@ -2,8 +2,10 @@
 import test from 'ava'
 import fn from './'
 
+/*
 test.skip('ebox j0k1s0', async t => {
   const result = await fn.ebox('j0k1s0')
+  console.log('R:', result)
   t.is(result.cable_available, 'V-Cable')
   t.not(result.areservicessupported, 'Yes')
   t.not(result.rateband, 'F')
@@ -22,6 +24,7 @@ test.skip('ebox h2k4b2', async t => {
   t.is(result.areservicessupported, 'Yes')
   t.is(result.rateband, 'B')
 })
+*/
 
 test('teksavvy j0k1s0', async t => {
   const result = await fn.teksavvy('j0k1s0')
@@ -55,10 +58,10 @@ test.skip('acanac j0k1s0', async t => {
   t.is(result.PhoneOptions[0].ID, 1028)
 })
 
-test.skip('acanac j0k2r0', async t => {
+test('acanac j0k2r0', async t => {
   const result = await fn.acanac('j0k2r0')
   t.falsy(result.AvailabilityLookupError)
-  t.is(result.InternetOptions.length, 4)
+  t.is(result.InternetOptions.length, 5)
   t.is(result.PhoneOptions[0].ID, 1028)
   t.is(result.TVOptions.length, 0)
 })

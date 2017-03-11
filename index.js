@@ -1,3 +1,5 @@
+'use strict'
+
 /*
 FAI (ISP) in Québec.
 
@@ -20,22 +22,23 @@ You should have received a copy of the
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-'use strict'
-
 // npm
 require('dotenv-safe').load()
 const fetchPony = require('fetch-ponyfill')({})
-const xml2js = require('xml2js')
 const cookie = require('cookie')
-const pify = require('pify')
+// const xml2js = require('xml2js')
+// const pify = require('pify')
 
+/*
 const xml2jsParse = (() => {
   const xml2jsParseImp = pify(xml2js.parseString)
   return (str) => xml2jsParseImp(str, {
     explicitArray: false, normalizeTags: true
   })
 })()
+*/
 
+/*
 const ebox = {
   API: 'http://www.ebox.ca/wp-content/themes/ebox_v2/validationtool_combo/controler_ajax.php',
   postalCode: (str) => fetchPony.fetch(ebox.API, {
@@ -53,6 +56,7 @@ const ebox = {
     .then(xml2jsParse)
     .then((x) => x.xml)
 }
+*/
 
 const teksavvy = {
   API: 'https://teksavvy.com/TekSavvy.ProductTabs/AvailabilityCheck/CheckAvailability'
@@ -107,9 +111,11 @@ module.exports = {
   acanac: (str) => acanac.postalCode(str)
     .then((x) => x[0])
     .then(acanac.deets),
+/*
   ebox: (str) => ebox.postalCode(str)
     .then((x) => x[0])
     .then(ebox.deets),
+*/
   teksavvy: (str) => fetchPony.fetch(teksavvy.API, {
     method: 'POST',
     redirect: 'manual',

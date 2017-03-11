@@ -55,7 +55,7 @@ test.skip('acanac j0k1s0', async t => {
   t.is(result.PhoneOptions[0].ID, 1028)
 })
 
-test('acanac j0k2r0', async t => {
+test.skip('acanac j0k2r0', async t => {
   const result = await fn.acanac('j0k2r0')
   t.falsy(result.AvailabilityLookupError)
   t.is(result.InternetOptions.length, 4)

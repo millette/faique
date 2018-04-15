@@ -23,7 +23,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 // npm
-require('dotenv-safe').load()
+require('dotenv').load()
+// require('dotenv-safe').load()
 const fetchPony = require('fetch-ponyfill')({})
 const cookie = require('cookie')
 // const xml2js = require('xml2js')

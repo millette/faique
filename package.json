@@ -11,7 +11,7 @@
   },
   "bin": "cli.js",
   "engines": {
-    "node": ">=4"
+    "node": ">=8.11.1"
   },
   "scripts": {
     "lint": "standard",
